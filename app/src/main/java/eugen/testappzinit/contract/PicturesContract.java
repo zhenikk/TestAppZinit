@@ -18,11 +18,11 @@ public interface PicturesContract extends BaseContract {
         void showPopup(BashImageModel bashImageModel);
 
         void showDetailed(BashImageModel bashImageModel);
+        void stopLoading();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
-
-        void loadDataFromServer();
+        void loadDataFromServer(boolean clear);
 
         MainListAdapter getAdapter();
 

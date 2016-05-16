@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -38,6 +39,7 @@ public class MainActivity extends BaseActivity implements PicturesContract.View 
 
     private PicturesContract.Presenter mPresenter;
     RecyclerView mRecyclerView;
+    SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,15 @@ public class MainActivity extends BaseActivity implements PicturesContract.View 
         setContentView(R.layout.activity_main);
         mPresenter = new PresenterMainActivity(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.rvPicturesList);
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                mPresenter.loadDataFromServer(true);
+            }
+        });
 
         mRecyclerView.setAdapter(mPresenter.getAdapter());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -63,7 +74,7 @@ public class MainActivity extends BaseActivity implements PicturesContract.View 
         });
 
 
-        mPresenter.loadDataFromServer();
+        mPresenter.loadDataFromServer(true);
 
     }
 
@@ -116,5 +127,10 @@ public class MainActivity extends BaseActivity implements PicturesContract.View 
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra(Constants.DETAIL_KEY_PICTURE, bashImageModel);
         startActivity(intent);
+    }
+
+    @Override
+    public void stopLoading() {
+        swipeContainer.setRefreshing(false);
     }
 }

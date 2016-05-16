@@ -62,7 +62,11 @@ public class PresenterMainActivity implements PicturesContract.Presenter {
     }
 
     @Override
-    public void loadDataFromServer() {
+    public void loadDataFromServer(final boolean clear) {
+        if (clear) {
+            mList.clear();
+            mStartIndex = 0;
+        }
 
         Call<List<BashImageModel>> call = service.getApi().getBestPictures(mStartIndex, Constants.PER_PAGE_IMAGES_LIMIT);
         call.enqueue(new Callback<List<BashImageModel>>() {
@@ -71,13 +75,17 @@ public class PresenterMainActivity implements PicturesContract.Presenter {
             public void onResponse(Call<List<BashImageModel>> call, Response<List<BashImageModel>> response) {
                 int tempSize = mList.size() - 1;
                 mList.addAll(response.body());
-                mAdapter.notifyItemRangeInserted(tempSize, response.body().size());
+                if (!clear) {
+                    mAdapter.notifyItemRangeInserted(tempSize, response.body().size());
+                } else mAdapter.notifyDataSetChanged();
+                mView.stopLoading();
 
             }
 
             @Override
             public void onFailure(Call<List<BashImageModel>> call, Throwable t) {
                 mView.showError(t.getLocalizedMessage());
+                mView.stopLoading();
             }
         });
     }
@@ -90,7 +98,7 @@ public class PresenterMainActivity implements PicturesContract.Presenter {
     @Override
     public void loadMore(int page) {
         mStartIndex = page * Constants.PER_PAGE_IMAGES_LIMIT;
-        loadDataFromServer();
+        loadDataFromServer(false);
 
     }
 
