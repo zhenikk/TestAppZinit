@@ -3,10 +3,12 @@ package eugen.testappzinit.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Yevhenii on 16.05.16.
  */
-public class BashImageModel {
+public class BashImageModel implements Serializable {
 
     @SerializedName("id")
     @Expose

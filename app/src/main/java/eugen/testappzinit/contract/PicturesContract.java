@@ -14,6 +14,10 @@ public interface PicturesContract extends BaseContract {
     interface View extends BaseContract.View {
 
         void showError(String localizedMessage);
+
+        void showPopup(BashImageModel bashImageModel);
+
+        void showDetailed(BashImageModel bashImageModel);
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
@@ -22,5 +26,6 @@ public interface PicturesContract extends BaseContract {
 
         MainListAdapter getAdapter();
 
+        void loadMore(int page);
     }
 }

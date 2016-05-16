@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="eugen.testappzinit">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -17,7 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.DetailActivity">
+        <activity
+            android:name=".ui.activities.DetailActivity"
+            android:parentActivityName=".ui.activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.MainActivity" />
 
         </activity>
     </application>

@@ -20,8 +20,10 @@ import eugen.testappzinit.model.BashImageModel;
  */
 public class MainListAdapter extends
         RecyclerView.Adapter<MainListAdapter.ViewHolder> {
-    List<BashImageModel> mList;
-    Context context;
+    private static OnItemClickListener listener;
+    private List<BashImageModel> mList;
+
+    private Context context;
 
     public MainListAdapter(List<BashImageModel> mList, Context context) {
         this.mList = mList;
@@ -60,7 +62,7 @@ public class MainListAdapter extends
         return mList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView nameTextView;
         public ImageView imageView;
@@ -70,11 +72,26 @@ public class MainListAdapter extends
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
             super(itemView);
-
+            itemView.setOnClickListener(this);
             nameTextView = (TextView) itemView.findViewById(R.id.textInfo);
             imageView = (ImageView) itemView.findViewById(R.id.image);
         }
+
+        @Override
+        public void onClick(View v) {
+            int position = getLayoutPosition(); // gets item position
+            if (listener != null) listener.onItemClick(v, position);
+        }
     }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        MainListAdapter.listener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, int position);
+    }
+
 }
 
 

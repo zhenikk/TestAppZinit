@@ -24,7 +24,7 @@ public class Test {
     private void testPictures() {
         PicturesService service = new PicturesService();
 
-        Call<List<BashImageModel>> call = service.getApi().getBestPictures();
+        Call<List<BashImageModel>> call = service.getApi().getBestPictures(0,25);
         call.enqueue(new Callback<List<BashImageModel>>() {
 
             @Override

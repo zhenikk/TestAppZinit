@@ -26,10 +26,10 @@ public class PicturesService {
     }
 
     public interface PicturesAPI {
-//https://api.ukrbash.org/1/pictures.getTheBest.json?client=ключ
+    //https://api.ukrbash.org/1/pictures.getTheBest.json?client=ключ
 
         @GET("/1/pictures.getTheBest.json?client="+ Constants.API_KEY)
-        Call<List<BashImageModel>> getBestPictures();
+        Call<List<BashImageModel>> getBestPictures(@Query("start") int start,@Query("limit") int limit);
 
     }
 }
