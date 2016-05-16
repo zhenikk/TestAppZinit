@@ -97,7 +97,7 @@ public class MainActivity extends BaseActivity implements PicturesContract.View 
 
     @Override
     public void showPopup(final BashImageModel bashImageModel) {
-        String date = new SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.US).format(new Date());
+        String date = new SimpleDateFormat("HH:mm", Locale.US).format(new Date());
 
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.test_toast_layout,
